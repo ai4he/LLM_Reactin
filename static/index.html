@@ -1,1 +1,148 @@
-OK
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Interface</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        .message-card {
+            margin-bottom: 10px;
+        }
+
+        .user-message {
+            color: white;
+            background-color: #007bff;
+        }
+
+        .ai-message {
+            color: black;
+            background-color: #e8e8e8;
+        }
+
+        .conversation-list {
+            border: 1px solid #cccccc;
+            padding: 10px;
+            border-radius: 7px;
+            overflow-y: auto;
+        }
+
+        .conversation {
+            cursor: pointer;
+        }
+
+        .conversation.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+	    #user-input {
+            width: 70%;
+        }
+
+        #send-button {
+            width: 29%;
+        }
+
+        .panel {
+            display: flex;
+            flex-direction: column;
+            height: 80vh; /* you can adjust this value to fit your needs */
+        }
+
+        .chat-output {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-3 panel">
+                <div class="conversation-list">
+                    <div class="conversation active" data-target="#conversation1">
+                        Conversation 1
+                    </div>
+                    <div class="conversation" data-target="#conversation2">
+                        Conversation 2
+                    </div>
+                    <div class="conversation" data-target="#conversation3">
+                        Conversation 3
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 panel">
+                <div id="conversation1" class="chat-output">
+                    <!-- Sample user message -->
+                    <div class="card message-card user-message">
+                        <div class="card-body">
+                            User: Hello ChatGPT
+                        </div>
+                    </div>
+                    <!-- Sample AI message -->
+                    <div class="card message-card ai-message">
+                        <div class="card-body">
+                            AI: Hello User, how can I assist you today?
+                        </div>
+                    </div>
+                </div>
+                <div id="conversation2" class="chat-output" style="display: none;">
+                    <!-- Conversation 2 -->
+                </div>
+                <div id="conversation3" class="chat-output" style="display: none;">
+                    <!-- Conversation 3 -->
+                </div>
+                <div class="input-group mt-3">
+			        <input type="text" id="user-input" class="form-control" placeholder="Type your message...">
+			        <div class="input-group-append">
+			            <button id="send-button" class="btn btn-primary btn-sm">Send</button>
+			        </div>
+			    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        $(document).ready(function() {
+            $('.conversation').click(function() {
+                var target = $(this).data('target');
+
+                $('.chat-output').hide();
+                $(target).show();
+
+                $('.conversation').removeClass('active');
+                $(this).addClass('active');
+            });
+
+            $('#send-button').click(function() {
+                var userInput = $('#user-input').val().trim();
+                var activeChatOutput = $('.chat-output:visible');
+
+                if(userInput) {
+                    activeChatOutput.append('<div class="card message-card user-message"><div class="card-body">' + 'User: ' + userInput + '</div></div>');
+
+                    // Call your Flask API here
+                    // $.ajax({ ... })
+
+                    $('#user-input').val('');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
